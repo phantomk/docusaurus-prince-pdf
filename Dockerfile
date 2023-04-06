@@ -22,12 +22,15 @@ RUN yarn --frozen-lockfile && \
 
 RUN apk add --no-cache curl
 RUN prince_arch=$([ "$TARGETARCH" == "arm64" ] && echo "aarch64-musl" || echo "x86_64") \
-    && curl https://www.princexml.com/download/prince-${PRINCE_VER}-${DISTRO}-${prince_arch}.tar.gz -o prince.tar.gz \
+    && curl https://www.princexml.com/download/prince-15.1-alpine3.17-x86_64.tar.gz -o prince.tar.gz \
     && mkdir prince \
     && tar -zxvf prince.tar.gz -C prince --strip-components=1 \
     && rm prince.tar.gz \
     && cd prince \
     && yes "" | ./install.sh
+    
+RUN apk add libxml2 pixman tiff giflib libpng lcms2 fontconfig libgomp
+RUN apk add libavif-apps
 
 RUN apk add --no-cache \
     terminus-font \
