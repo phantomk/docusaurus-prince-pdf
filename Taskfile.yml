@@ -1,0 +1,14 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+      - docker build -t web2pdf:latest .
+      - docker run -d --rm -v $(pwd)/pdf:/app/pdf web2pdf:latest
+    # silent: true
